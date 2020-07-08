@@ -5,6 +5,7 @@ import torch.backends.cudnn as cudnn
 from models.experimental import *
 from utils.datasets import *
 from utils.utils import *
+from scipy.spatial import distance as dist
 
 
 def detect(save_img=False):
