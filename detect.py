@@ -102,7 +102,7 @@ def detect(save_img=False):
                 violate=np.array([False for i in range(len(det))])
                 for i in range(0, D.shape[0]):
                     for j in range(i + 1, D.shape[1]):
-                        if D[i, j] < 50:
+                        if D[i, j] < 70:
                             violate[i]=True
                             violate[j]=True
 
@@ -118,9 +118,9 @@ def detect(save_img=False):
                         label = '%s %.2f' % (names[int(cls)], conf)
                         if violate[contador]==True:
                             # Si viola la distancia
-                            plot_one_box(xyxy, im0, label="Muy cerca", color=(255, 0, 0), line_thickness=3)
+                            plot_one_box(xyxy, im0, label="Dist. Insegura", color=(0, 51, 204), line_thickness=3)
                         else:
-                            plot_one_box(xyxy, im0, label="OK", color=(0, 51, 204), line_thickness=3)
+                            plot_one_box(xyxy, im0, label="Dist. Segura", color=(255, 0, 0), line_thickness=3)
                         #plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=3)
                     contador+=1
 
