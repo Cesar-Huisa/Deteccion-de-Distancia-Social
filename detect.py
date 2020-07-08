@@ -102,7 +102,7 @@ def detect(save_img=False):
                 violate=np.array([False for i in range(len(det))])
                 for i in range(0, D.shape[0]):
                     for j in range(i + 1, D.shape[1]):
-                        if D[i, j] < 20:
+                        if D[i, j] < 40:
                             violate[i]=True
                             violate[j]=True
 
