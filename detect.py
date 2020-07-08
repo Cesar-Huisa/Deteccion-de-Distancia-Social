@@ -90,6 +90,23 @@ def detect(save_img=False):
                     s += '%g %ss, ' % (n, names[int(c)])  # add to string
 
                 # Write results
+                lista=[]
+                for *xyxy, conf, cls in det:
+                    x=abs((xyxy[0]+xyxy[2])/2)
+                    y=abs((xyxy[1]+xyxy[3])/2)
+                    lista.add([x,y])
+                D = dist.cdist(lista,lista, metric="euclidean")
+
+                #escojiendo que personas violan la distancia
+                violate=np.array([False for i in range(len(det))])
+                for i in range(0, D.shape[0]):
+                    for j in range(i + 1, D.shape[1]):
+                        if D[i, j] < 50:
+                            violate[i]=True
+                            violate[j]=True
+
+                contador=0
+
                 for *xyxy, conf, cls in det:
                     if save_txt:  # Write to file
                         xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
@@ -98,7 +115,13 @@ def detect(save_img=False):
 
                     if save_img or view_img:  # Add bbox to image
                         label = '%s %.2f' % (names[int(cls)], conf)
-                        plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=3)
+                        if violate[contador]==True:
+                            # Si viola la distancia
+                            plot_one_box(xyxy, im0, label="Muy cerca", color="red"], line_thickness=3)
+                        else
+                            plot_one_box(xyxy, im0, label="OK", color="blue", line_thickness=3)
+                        #plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=3)
+                    contador+=1
 
             # Print time (inference + NMS)
             print('%sDone. (%.3fs)' % (s, t2 - t1))
