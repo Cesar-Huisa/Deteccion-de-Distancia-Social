@@ -94,7 +94,7 @@ def detect(save_img=False):
                 for *xyxy, conf, cls in det:
                     x=abs((xyxy[0]+xyxy[2])/2)
                     y=abs((xyxy[1]+xyxy[3])/2)
-                    lista.add([x,y])
+                    lista.append([x,y])
                 D = dist.cdist(lista,lista, metric="euclidean")
 
                 #escojiendo que personas violan la distancia
